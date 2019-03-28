@@ -18,7 +18,7 @@ class WeatherDataViewController: UIViewController {
         super.viewDidLoad()
 
         tableView.delegate = self
-        tableView.dataSource = self
+        tableView.dataSource = self        
     }
     
     @IBAction func actionOnBackButton(_ sender: Any) {
