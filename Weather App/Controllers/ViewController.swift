@@ -54,6 +54,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func actionOnSubmitButton(_ sender: Any) {
+        
+        if latitudeLabel.text!.contains("0.0") || longituteLabel.text!.contains("0.0") {
+            Utils.alertDialog()
+            return
+        }
+        
         ProgressView.shared.show(self.view)
         AppServices().execute()
     }

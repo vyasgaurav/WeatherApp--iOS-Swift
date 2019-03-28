@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Utils {
     
@@ -25,5 +26,20 @@ class Utils {
     static func getTempInCelsius(_ temp: Double) -> String {
         let temperature = Int(5.0 / 9.0 * (temp - 32.0))
         return String(temperature)
+    }
+    
+    static func alertDialog() {
+        let alertController = UIAlertController(title: Strings.empty, message: Strings.alertMessage, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: Strings.ok , style: .cancel, handler: { action in
+            switch action.style {
+            case .cancel:
+                alertController.dismiss(animated: true, completion: nil)
+            default:
+                break
+            }
+        }))
+        
+        guard let controller = AppDelegate.shared.getCurrentViewController() else { return }
+        controller.present(alertController, animated: true, completion: nil)
     }
 }
