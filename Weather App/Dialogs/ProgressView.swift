@@ -12,38 +12,21 @@ class ProgressView: UIView {
 
     static let shared = ProgressView()
     
+    private var indicator: UIActivityIndicatorView?
+    
     func setProgressView() {
         self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
 
-        self.layoutIfNeeded()
+        indicator = UIActivityIndicatorView(style: .whiteLarge)
+        indicator?.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        indicator?.center = self.center
+        self.addSubview(indicator!)
+        self.bringSubviewToFront(indicator!)
         
-        let frame =  CGRect(x: 0, y: 0, width: 50, height: 50)
-        
-        var progressCircle = CAShapeLayer()
-        
-        let circleRadius : CGFloat = frame.width / 2 * 0.83
-        
-        let circlePath = UIBezierPath(arcCenter: self.center, radius: circleRadius, startAngle: CGFloat(-0.5 * .pi), endAngle: CGFloat(1.5 * .pi), clockwise: true    )
-        
-        progressCircle = CAShapeLayer ()
-        progressCircle.path = circlePath.cgPath
-        progressCircle.strokeColor = UIColor.orange.cgColor
-        progressCircle.fillColor = UIColor.clear.cgColor
-        progressCircle.lineWidth = 3.0
-        progressCircle.strokeStart = 0
-        progressCircle.strokeEnd = 1.0
-        self.layer.addSublayer(progressCircle)
-        
-        let animation = CABasicAnimation(keyPath: Strings.animationPath)
-        animation.fromValue = 0
-        animation.toValue = 1.0
-        animation.duration = 5.0
-        animation.fillMode = CAMediaTimingFillMode.forwards
-        animation.isRemovedOnCompletion = false
-        progressCircle.add(animation, forKey: Strings.animationKey)
+        indicator?.startAnimating()
         
         let label = UILabel(frame: CGRect(x: 0,
-                                          y: self.center.y + frame.height,
+                                          y: self.center.y + indicator!.frame.height,
                                           width: bounds.width,
                                           height: 21))
         label.text = Strings.pleaseWaitLoading
@@ -60,6 +43,7 @@ class ProgressView: UIView {
     }
     
     func dismiss() {
+        indicator?.stopAnimating()
         removeFromSuperview()
     }
 }
