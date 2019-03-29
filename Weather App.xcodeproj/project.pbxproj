@@ -53,6 +53,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3306E29A224DEAE00050922B /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				330FAB42224A3D7700A7E380 /* AppServices.swift */,
+				330FAB44224B6C2A00A7E380 /* APIKeys.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
 		3385A6EC224A222200A991A8 = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +81,7 @@
 		3385A6F7224A222200A991A8 /* Weather App */ = {
 			isa = PBXGroup;
 			children = (
+				3306E29A224DEAE00050922B /* Tasks */,
 				3385A70E224A235800A991A8 /* Dialogs */,
 				3385A70B224A22D800A991A8 /* AppUtils */,
 				3385A70A224A22CA00A991A8 /* Controllers */,
@@ -99,8 +109,6 @@
 			children = (
 				3385A70C224A233900A991A8 /* Constants.swift */,
 				3385A70F224A236900A991A8 /* Prefs.swift */,
-				330FAB42224A3D7700A7E380 /* AppServices.swift */,
-				330FAB44224B6C2A00A7E380 /* APIKeys.swift */,
 				330FAB4A224BC4E300A7E380 /* Utils.swift */,
 				33B7273A224C925800C2B4D6 /* Strings.swift */,
 			);

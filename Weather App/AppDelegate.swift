@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+
+    private let locationManager = CLLocationManager()
 
     static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
@@ -19,6 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Ask for authorisation from the user.
+        locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        
         return true
     }
 
@@ -59,6 +75,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return controller
     }
-    
 }
 
+extension AppDelegate:  CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locationValue = manager.location?.coordinate else { return }
+        Prefs.shared.setLocationLatitude(latitude: locationValue.latitude)
+        Prefs.shared.setLocationLongitute(longitute: locationValue.longitude)
+    }
+}

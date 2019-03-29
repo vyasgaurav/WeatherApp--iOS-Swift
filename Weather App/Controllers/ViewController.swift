@@ -15,12 +15,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var latitudeLabel: UILabel!
     
     @IBOutlet weak var longituteLabel: UILabel!
-    
-    private let locationManager = CLLocationManager()
+
+    private var isLocationMissing = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeLocationManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,25 +27,16 @@ class ViewController: UIViewController {
         setLocationCoordinates()
     }
     
-    private func initializeLocationManager() {
-        
-        // Ask for authorisation from the user.
-        locationManager.requestAlwaysAuthorization()
-        
-        // For use in foreground
-        locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     private func setLocationCoordinates() {
         let prefs = Prefs.shared
         latitudeLabel.text = Strings.latitude + String(prefs.getLocationLatitude())
         longituteLabel.text = Strings.longitute + String(prefs.getLocationLongitute())
+        
+        isLocationMissing = prefs.getLocationLongitute() == 0.0 || prefs.getLocationLatitude() == 0.0
     }
     
     @IBAction func actionOnRefreshButton(_ sender: Any) {
@@ -55,21 +45,12 @@ class ViewController: UIViewController {
     
     @IBAction func actionOnSubmitButton(_ sender: Any) {
         
-        if latitudeLabel.text!.contains("0.0") || longituteLabel.text!.contains("0.0") {
+        if isLocationMissing {
             Utils.alertDialog()
             return
         }
         
         ProgressView.shared.show(self.view)
         AppServices().execute()
-    }
-}
-
-extension ViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locationValue = manager.location?.coordinate else { return }
-        Prefs.shared.setLocationLatitude(latitude: locationValue.latitude)
-        Prefs.shared.setLocationLongitute(longitute: locationValue.longitude)
     }
 }
