@@ -18,52 +18,49 @@ class WeatherDataViewController: UIViewController {
         super.viewDidLoad()
 
         tableView.delegate = self
-        tableView.dataSource = self        
-    }
-    
-    @IBAction func actionOnBackButton(_ sender: Any) {
-        dismiss(animated: false, completion: nil)
+        tableView.dataSource = self
     }
 }
 
 extension WeatherDataViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else {
-            return weatherInfo.hourData.count
-        }
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 300
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.REPORT_CELL_IDENTIFIER) as! ReportTableViewCell
         
-        guard let info = weatherInfo else {
-            return UITableViewCell()
-        }
-        
-        if indexPath.section == 0 {
-            let date = Utils.getDateInFormat(info.currentTime)
-            let time = Utils.getTimeInformat(info.currentTime)
-            let temp = Utils.getTempInCelsius(info.currentTemp)
-            
-            cell.headerLabel.text = Strings.current
-            cell.drawCell(date: date, time: time, temp: temp, weather: info.currentWeather)
-            return cell
-        } else {
-            let forecast = info.hourData[indexPath.row]
-            let date = Utils.getDateInFormat(forecast.time)
-            let time = Utils.getTimeInformat(forecast.time)
-            let temp = Utils.getTempInCelsius(forecast.temperature)
-            
-            cell.headerLabel.text = indexPath.row == 0 ? Strings.forecast : Strings.empty
-            cell.drawCell(date: date, time: time, temp: temp, weather: forecast.weather)
-            return cell
-        }
+        return cell
+//        guard let info = weatherInfo else {
+//            return UITableViewCell()
+//        }
+//
+//        if indexPath.section == 0 {
+//            let date = Utils.getDateInFormat(info.currentTime)
+//            let time = Utils.getTimeInformat(info.currentTime)
+//            let temp = Utils.getTempInCelsius(info.currentTemp)
+//
+//            cell.headerLabel.text = Strings.current
+//            cell.drawCell(date: date, time: time, temp: temp, weather: info.currentWeather)
+//            return cell
+//        } else {
+//            let forecast = info.hourData[indexPath.row]
+//            let date = Utils.getDateInFormat(forecast.time)
+//            let time = Utils.getTimeInformat(forecast.time)
+//            let temp = Utils.getTempInCelsius(forecast.temperature)
+//
+//            cell.headerLabel.text = indexPath.row == 0 ? Strings.forecast : Strings.empty
+//            cell.drawCell(date: date, time: time, temp: temp, weather: forecast.weather)
+//            return cell
+//        }
     }
 }

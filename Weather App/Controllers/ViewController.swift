@@ -12,19 +12,20 @@ import CoreLocation
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var latitudeLabel: UILabel!
-    
-    @IBOutlet weak var longituteLabel: UILabel!
 
     private var isLocationMissing = false
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setLocationCoordinates()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -32,25 +33,6 @@ class ViewController: UIViewController {
     }
     
     private func setLocationCoordinates() {
-        let prefs = Prefs.shared
-        latitudeLabel.text = Strings.latitude + String(prefs.getLocationLatitude())
-        longituteLabel.text = Strings.longitute + String(prefs.getLocationLongitute())
-        
-        isLocationMissing = prefs.getLocationLongitute() == 0.0 || prefs.getLocationLatitude() == 0.0
-    }
     
-    @IBAction func actionOnRefreshButton(_ sender: Any) {
-        setLocationCoordinates()
-    }
-    
-    @IBAction func actionOnSubmitButton(_ sender: Any) {
-        
-        if isLocationMissing {
-            Utils.alertDialog()
-            return
-        }
-        
-        ProgressView.shared.show(self.view)
-        AppServices().execute()
     }
 }

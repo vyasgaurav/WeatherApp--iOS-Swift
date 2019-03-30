@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Ask for authorisation from the user.
+        
         locationManager.requestAlwaysAuthorization()
         
         // For use in foreground
