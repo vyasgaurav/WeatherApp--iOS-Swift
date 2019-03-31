@@ -14,6 +14,7 @@ public class Prefs {
     
     private static let LATITUDE = "latitude"
     private static let LONGITUTE = "longitute"
+    private static let CITY_NAME = "cityName"
     
     private var preferences = UserDefaults()
     
@@ -33,5 +34,13 @@ public class Prefs {
     
     func getLocationLongitute() -> Double {
         return preferences.double(forKey: Prefs.LONGITUTE)
+    }
+    
+    func setCityName(_ cityName: String) {
+        preferences.set(cityName, forKey: Prefs.CITY_NAME)
+    }
+    
+    func getCityName() -> String {
+        return preferences.string(forKey: Prefs.CITY_NAME) ?? Strings.empty
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MmI-w2-eFc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -86,7 +86,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bnR-Oi-kul">
+                                                <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bnR-Oi-kul">
                                                     <rect key="frame" x="10" y="0.0" width="355" height="300"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Delhi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tFD-gP-xST">
@@ -116,7 +116,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="34 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Smi-Mb-Xy8">
-                                                            <rect key="frame" x="20" y="201" width="335" height="82"/>
+                                                            <rect key="frame" x="10" y="201" width="345" height="82"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="70"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -137,7 +137,7 @@
                                                         <constraint firstAttribute="trailing" secondItem="tFD-gP-xST" secondAttribute="trailing" id="olE-Ns-6xb"/>
                                                         <constraint firstItem="tFD-gP-xST" firstAttribute="top" secondItem="bnR-Oi-kul" secondAttribute="top" constant="10" id="pOT-bh-gGN"/>
                                                         <constraint firstItem="FBQ-BF-wPl" firstAttribute="leading" secondItem="bnR-Oi-kul" secondAttribute="leading" constant="10" id="uOZ-Ip-nLX"/>
-                                                        <constraint firstItem="Smi-Mb-Xy8" firstAttribute="leading" secondItem="bnR-Oi-kul" secondAttribute="leading" constant="20" id="vZM-xP-I8R"/>
+                                                        <constraint firstItem="Smi-Mb-Xy8" firstAttribute="leading" secondItem="bnR-Oi-kul" secondAttribute="leading" constant="10" id="vZM-xP-I8R"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -150,6 +150,37 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="cityLabel" destination="tFD-gP-xST" id="PQM-3S-uPw"/>
+                                            <outlet property="dateLabel" destination="njA-WZ-fdF" id="IJU-hw-sfl"/>
+                                            <outlet property="temperatureLabel" destination="Smi-Mb-Xy8" id="W75-P9-ycj"/>
+                                            <outlet property="weatherLabel" destination="FBQ-BF-wPl" id="ZY5-8l-rgx"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ForecastTableViewCell" rowHeight="100" id="eKD-xI-VfE" customClass="ForecastTableViewCell" customModule="Weather_App" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="328" width="375" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eKD-xI-VfE" id="5De-79-dte">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ge-8G-5DK">
+                                                    <rect key="frame" x="10" y="10" width="355" height="90"/>
+                                                    <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                                </scrollView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="7ge-8G-5DK" secondAttribute="bottom" id="5nW-t5-aVv"/>
+                                                <constraint firstItem="7ge-8G-5DK" firstAttribute="leading" secondItem="5De-79-dte" secondAttribute="leading" constant="10" id="JMU-Ke-Aw5"/>
+                                                <constraint firstItem="7ge-8G-5DK" firstAttribute="top" secondItem="5De-79-dte" secondAttribute="top" constant="10" id="TpK-Tp-Udd"/>
+                                                <constraint firstAttribute="trailing" secondItem="7ge-8G-5DK" secondAttribute="trailing" constant="10" id="ncU-ou-hpe"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="scrollView" destination="7ge-8G-5DK" id="NTy-JE-NOA"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>

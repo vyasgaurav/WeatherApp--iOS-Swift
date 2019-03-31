@@ -23,6 +23,7 @@
 		33B7273B224C925800C2B4D6 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B7273A224C925800C2B4D6 /* Strings.swift */; };
 		33D5A19F224F57370077C149 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D5A19E224F57370077C149 /* UIApplication.swift */; };
 		33D5A1A1224F714E0077C149 /* weather_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 33D5A1A0224F714D0077C149 /* weather_bg.jpg */; };
+		33D5A1A62250D1520077C149 /* ForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D5A1A52250D1520077C149 /* ForecastTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		33B7273A224C925800C2B4D6 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		33D5A19E224F57370077C149 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		33D5A1A0224F714D0077C149 /* weather_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = weather_bg.jpg; sourceTree = "<group>"; };
+		33D5A1A52250D1520077C149 /* ForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 		3385A6F7224A222200A991A8 /* Weather App */ = {
 			isa = PBXGroup;
 			children = (
+				33D5A1A42250D11D0077C149 /* TableCells */,
 				33D5A19D224F57040077C149 /* Extensions */,
 				33B4DCEC224F436300CF82EF /* Resources */,
 				3306E29A224DEAE00050922B /* Tasks */,
@@ -104,7 +107,6 @@
 			children = (
 				3385A6FA224A222200A991A8 /* ViewController.swift */,
 				330FAB46224B74A900A7E380 /* WeatherDataViewController.swift */,
-				330FAB48224B96FA00A7E380 /* ReportTableViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -151,6 +153,15 @@
 				33D5A19E224F57370077C149 /* UIApplication.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		33D5A1A42250D11D0077C149 /* TableCells */ = {
+			isa = PBXGroup;
+			children = (
+				330FAB48224B96FA00A7E380 /* ReportTableViewCell.swift */,
+				33D5A1A52250D1520077C149 /* ForecastTableViewCell.swift */,
+			);
+			path = TableCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +242,7 @@
 				3385A6FB224A222200A991A8 /* ViewController.swift in Sources */,
 				3385A6F9224A222200A991A8 /* AppDelegate.swift in Sources */,
 				330FAB45224B6C2A00A7E380 /* APIKeys.swift in Sources */,
+				33D5A1A62250D1520077C149 /* ForecastTableViewCell.swift in Sources */,
 				330FAB47224B74A900A7E380 /* WeatherDataViewController.swift in Sources */,
 				330FAB4B224BC4E300A7E380 /* Utils.swift in Sources */,
 				3385A710224A236900A991A8 /* Prefs.swift in Sources */,

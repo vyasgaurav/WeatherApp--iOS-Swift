@@ -23,6 +23,12 @@ class Utils {
         return timeFormatter.string(from: date)
     }
     
+    static func getWeekDay(_ date: Date) -> String {
+        let weekDayFormate = DateFormatter()
+        weekDayFormate.dateFormat = "EEEE"
+        return weekDayFormate.string(from: date)
+    }
+    
     static func getTempInCelsius(_ temp: Double) -> String {
         let temperature = Int(5.0 / 9.0 * (temp - 32.0))
         return String(temperature)
