@@ -18,9 +18,16 @@ struct WeatherCurrentData {
     let currentTemp: Double
     let currentWeather: String
     let hourData: [WeatherHourData]
+    let dailyData: [WeatherDailyData]
 }
 
 struct WeatherHourData {
+    let time: Date
+    let temperature: Double
+    let weather: String
+}
+
+struct WeatherDailyData {
     let time: Date
     let temperature: Double
     let weather: String
@@ -58,11 +65,35 @@ extension WeatherCurrentData {
             }
         }
         hourData = bufferData
-        print(hourData)
+        
+        var weekdayData = [WeatherDailyData]()
+        
+        guard let daily = json[APIKeys.HOURLY] as? [String: Any],
+            let values = daily[APIKeys.DATA] as? [[String: Any]] else { return nil }
+        
+        for jsonValue in values {
+            if let weatherDailyData = WeatherDailyData(json: jsonValue) {
+                weekdayData.append(weatherDailyData)
+            }
+        }
+        dailyData = weekdayData
+        print(dailyData)
     }
 }
 
 extension WeatherHourData {
+    init?(json: Any) {
+        guard let jsonData = json as? [String: Any], let time = jsonData[APIKeys.TIME] as? Double,
+            let temp = jsonData[APIKeys.TEMPERATURE] as? Double,
+            let weather = jsonData[APIKeys.SUMMARY] as? String else { return nil }
+        
+        self.time = Date(timeIntervalSince1970: time)
+        self.temperature = temp
+        self.weather = weather
+    }
+}
+
+extension WeatherDailyData {
     init?(json: Any) {
         guard let jsonData = json as? [String: Any], let time = jsonData[APIKeys.TIME] as? Double,
             let temp = jsonData[APIKeys.TEMPERATURE] as? Double,

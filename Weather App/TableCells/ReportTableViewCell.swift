@@ -24,7 +24,7 @@ class ReportTableViewCell: UITableViewCell {
         
         dateLabel.text = date + ", " + weekDay + " " + time
         
-        temperatureLabel.text = temp + "°C"
+        temperatureLabel.text = temp + "°"
         
         weatherLabel.text = weather
     }

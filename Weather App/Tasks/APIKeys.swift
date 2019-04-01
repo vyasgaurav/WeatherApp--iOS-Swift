@@ -16,4 +16,5 @@ class APIKeys {
     static let TIME = "time"
     static let TEMPERATURE = "temperature"
     static let SUMMARY = "summary"
+    static let DAILY = "daily"
 }

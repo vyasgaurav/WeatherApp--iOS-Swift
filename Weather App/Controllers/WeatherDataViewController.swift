@@ -12,6 +12,8 @@ class WeatherDataViewController: UIViewController {
 
     var weatherInfo: WeatherCurrentData!
     
+    private static let SECTIONS = 3
+    
     @IBOutlet weak var tableView: UITableView!
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -29,26 +31,30 @@ class WeatherDataViewController: UIViewController {
 extension WeatherDataViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return WeatherDataViewController.SECTIONS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0:
-            return 1
-        case 1:
-            return 1
+        case Sections.zero.rawValue:
+            return Sections.one.rawValue
+        case Sections.one.rawValue:
+            return Sections.one.rawValue
+        case Sections.two.rawValue:
+            return weatherInfo.dailyData.count
         default:
-            return 0
+            return Sections.zero.rawValue
         }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-        case 0:
+        case Sections.zero.rawValue:
             return 300
-        case 1:
+        case Sections.one.rawValue:
             return 100
+        case Sections.two.rawValue:
+            return 60
         default:
             return 0
         }
@@ -61,9 +67,9 @@ extension WeatherDataViewController: UITableViewDelegate, UITableViewDataSource 
         }
 
         switch indexPath.section {
-        case 0:
+        case Sections.zero.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.REPORT_CELL_IDENTIFIER) as! ReportTableViewCell
-            
+        
             let date = Utils.getDateInFormat(info.currentTime)
             let time = Utils.getTimeInformat(info.currentTime)
             let weekDay = Utils.getWeekDay(info.currentTime)
@@ -71,30 +77,23 @@ extension WeatherDataViewController: UITableViewDelegate, UITableViewDataSource 
             
             cell.drawCell(date: date, time: time, weekDay: weekDay, temp: temp, weather: info.currentWeather)
             return cell
-        case 1:
+        case Sections.one.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.FORECAST_CELL_IDENTIFIER) as! ForecastTableViewCell
-            
+        
             cell.drawCell(hourlyData: info.hourData)
             return cell
+        case Sections.two.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.DAILYREPORT_CELL_IDENTIFIER) as! DailyReportTableViewCell
+            
+            let data = info.dailyData[indexPath.row]
+            let weekDay = Utils.getWeekDay(data.time)
+            let temp = Utils.getTempInCelsius(data.temperature)
+            let time = Utils.getTimeInformat(data.time)
 
+            cell.drawCell(day: weekDay, time: time, temperature: temp, weather: data.weather)
+            return cell
         default:
             return UITableViewCell()
         }
-      
-//        if indexPath.section == 0 {
-//            let date = Utils.getDateInFormat(info.currentTime)
-//            let time = Utils.getTimeInformat(info.currentTime)
-//            let temp = Utils.getTempInCelsius(info.currentTemp)
-//
-//            cell.drawCell(time: info.currentTime, temp: temp, weather: info.currentWeather)
-//            return cell
-//        } else {
-//            let date = Utils.getDateInFormat(forecast.time)
-//            let time = Utils.getTimeInformat(forecast.time)
-//            let temp = Utils.getTempInCelsius(forecast.temperature)
-//
-//            cell.drawCell(time: forecast.time, temp: temp, weather: forecast.weather)
-//            return cell
-//        }
     }
 }

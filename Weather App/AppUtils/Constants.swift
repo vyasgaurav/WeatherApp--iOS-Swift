@@ -17,6 +17,7 @@ class Constants {
     static let WEATHER_DATA_CONTROLLER_ID = "WeatherDataViewController"
     static let REPORT_CELL_IDENTIFIER = "ReportTableViewCell"
     static let FORECAST_CELL_IDENTIFIER = "ForecastTableViewCell"
+    static let DAILYREPORT_CELL_IDENTIFIER = "DailyReportTableViewCell"
     
     static let DATE_FORMATE = "yyyy-MM-dd"
     static let TIME_FORMATE = "HH:mm"
