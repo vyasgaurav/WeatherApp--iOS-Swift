@@ -26,6 +26,6 @@ class Strings {
     static let temperature = "Temperature:"
     static let weather = "Weather"
     
-    static let alertMessage = "Latitude and Longitute are missing, Please check your device location settings or do the Refresh."
+    static let alertMessage = "Latitude and Longitute are missing, Please check your device location settings."
     static let ok = "OK"
 }

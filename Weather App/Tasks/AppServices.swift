@@ -77,7 +77,6 @@ extension WeatherCurrentData {
             }
         }
         dailyData = weekdayData
-        print(dailyData)
     }
 }
 
@@ -90,6 +89,7 @@ extension WeatherHourData {
         self.time = Date(timeIntervalSince1970: time)
         self.temperature = temp
         self.weather = weather
+
     }
 }
 
@@ -99,7 +99,17 @@ extension WeatherDailyData {
             let temp = jsonData[APIKeys.TEMPERATURE] as? Double,
             let weather = jsonData[APIKeys.SUMMARY] as? String else { return nil }
         
-        self.time = Date(timeIntervalSince1970: time)
+        let date = Date(timeIntervalSince1970: time)
+        
+        let weekday = Utils.getWeekDay(date)
+        print("weeday : \(weekday)")
+        let today = Utils.getWeekDay(Date())
+        print("today :\(today)")
+        if weekday == today {
+            return nil
+        }
+        
+        self.time = date
         self.temperature = temp
         self.weather = weather
     }
@@ -107,7 +117,7 @@ extension WeatherDailyData {
 
 class AppServices {
   
-    func execute() {
+    func execute(completion: @escaping (_ weatherInfo: WeatherCurrentData) -> ()) {
         
         let prefs = Prefs.shared
         let serviceURL = Constants.BASE_URL + "\(prefs.getLocationLatitude()),\(prefs.getLocationLongitute())"
@@ -124,29 +134,18 @@ class AppServices {
 
             if let object = try? JSONSerialization.jsonObject(with: data, options: []),
                 let json = object as? [String: Any] {
-                print(json)
                 guard let weatherInfo = WeatherData(json: json)
                 else {
                     self.dismissDialog()
                     return
                 }
-                self.dismissDialog()
-                self.showWeatherReport(weatherInfo)
+                    self.dismissDialog()
+                    completion(weatherInfo.data)
             }
         }
         
         dataTask.resume()
         session.finishTasksAndInvalidate()
-    }
-    
-    private func showWeatherReport(_ weatherInfo: WeatherData) {        
-        DispatchQueue.main.async {
-            guard let currentViewController = AppDelegate.shared.getCurrentViewController() else { return }
-            let storyBoard: UIStoryboard = UIStoryboard(name: Constants.STORYBOARD_NAME, bundle: nil)
-            let viewController = storyBoard.instantiateViewController(withIdentifier: Constants.WEATHER_DATA_CONTROLLER_ID) as! WeatherDataViewController
-            viewController.weatherInfo = weatherInfo.data
-            currentViewController.present(viewController, animated: false, completion: nil)
-        }
     }
     
     private func dismissDialog() {

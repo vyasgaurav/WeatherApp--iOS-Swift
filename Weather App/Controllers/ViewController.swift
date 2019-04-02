@@ -12,8 +12,9 @@ import CoreLocation
 
 class ViewController: UIViewController {
     
-
     private var isLocationMissing = false
+    private var seconds = 0
+    private var timer = Timer()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -21,34 +22,28 @@ class ViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(handleTime), userInfo: nil, repeats: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        let prefs = Prefs.shared
-        let location = CLLocation(latitude: prefs.getLocationLatitude(), longitude: prefs.getLocationLongitute())
-        
-        fetchCityAndCountry(from: location) { city, country, error in
-            guard let city = city, let country = country, error == nil else { return }
-            print(city + ", " + country)
-            prefs.setCityName(city)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        timer.invalidate()
+    }
+    
+    @objc private func handleTime() {
+        seconds += 1
+        if seconds == 5 {
+            presentNextController()
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        ProgressView.shared.show(self.view)
-        AppServices().execute()
+    private func presentNextController() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: Constants.STORYBOARD_NAME, bundle: nil)
+        let viewController = storyBoard.instantiateViewController(withIdentifier: Constants.WEATHER_DATA_CONTROLLER_ID) as! WeatherDataViewController
+        self.present(viewController, animated: false, completion: nil)
     }
-    
-    func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
-        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
-            completion(placemarks?.first?.locality,
-                       placemarks?.first?.country,
-                       error)
-        }
-    }
-
 }

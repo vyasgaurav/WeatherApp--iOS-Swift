@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherDataViewController: UIViewController {
 
@@ -22,9 +23,67 @@ class WeatherDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.delegate = self
         tableView.dataSource = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchWeatherData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)        
+    }
+    
+    private func fetchWeatherData() {
+        
+        if !CLLocationManager.locationServicesEnabled() {
+            Utils.alertDialog(self)
+            return
+        }
+        
+        ProgressView.shared.show(self.view)
+        
+        fetchLocality()
+        
+        AppServices().execute() { weatherInfo in
+            
+            self.weatherInfo = weatherInfo
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func fetchLocality() {
+        let prefs = Prefs.shared
+        let location = CLLocation(latitude: prefs.getLocationLatitude(), longitude: prefs.getLocationLongitute())
+        
+        fetchCityAndCountry(from: location) { city, country, error in
+            guard let city = city, let country = country, error == nil else { return }
+            print(city + ", " + country)
+            prefs.setCityName(city)
+        }
+    }
+    
+    private func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
+        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+            completion(placemarks?.first?.locality,
+                       placemarks?.first?.country,
+                       error)
+        }
+    }
+
+    @objc func handleNotification(_ notification: NotificationCenter) {
+        fetchWeatherData()
     }
 }
 
@@ -41,7 +100,8 @@ extension WeatherDataViewController: UITableViewDelegate, UITableViewDataSource 
         case Sections.one.rawValue:
             return Sections.one.rawValue
         case Sections.two.rawValue:
-            return weatherInfo.dailyData.count
+            guard let dailyData = weatherInfo?.dailyData else { return Sections.zero.rawValue }
+            return dailyData.count
         default:
             return Sections.zero.rawValue
         }
@@ -62,14 +122,15 @@ extension WeatherDataViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let info = weatherInfo else {
-            return UITableViewCell()
-        }
-
+        
         switch indexPath.section {
         case Sections.zero.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.REPORT_CELL_IDENTIFIER) as! ReportTableViewCell
         
+            guard let info = weatherInfo else {
+                return cell
+            }
+            
             let date = Utils.getDateInFormat(info.currentTime)
             let time = Utils.getTimeInformat(info.currentTime)
             let weekDay = Utils.getWeekDay(info.currentTime)
@@ -80,10 +141,19 @@ extension WeatherDataViewController: UITableViewDelegate, UITableViewDataSource 
         case Sections.one.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.FORECAST_CELL_IDENTIFIER) as! ForecastTableViewCell
         
+            guard let info = weatherInfo else {
+                return cell
+            }
+            
+            cell.scrollView.reloadInputViews()
             cell.drawCell(hourlyData: info.hourData)
             return cell
         case Sections.two.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.DAILYREPORT_CELL_IDENTIFIER) as! DailyReportTableViewCell
+            
+            guard let info = weatherInfo else {
+                return cell
+            }
             
             let data = info.dailyData[indexPath.row]
             let weekDay = Utils.getWeekDay(data.time)

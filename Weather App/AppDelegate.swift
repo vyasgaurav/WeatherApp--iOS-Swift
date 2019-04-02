@@ -13,7 +13,7 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
     private let locationManager = CLLocationManager()
 
     static var shared: AppDelegate {
@@ -59,8 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        locationManager.stopUpdatingLocation()
     }
-
 
     //MARK: controller utils
     func getCurrentViewController() -> UIViewController? {
@@ -84,5 +84,9 @@ extension AppDelegate:  CLLocationManagerDelegate {
         guard let locationValue = manager.location?.coordinate else { return }
         Prefs.shared.setLocationLatitude(latitude: locationValue.latitude)
         Prefs.shared.setLocationLongitute(longitute: locationValue.longitude)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        locationManager.stopUpdatingLocation()
     }
 }

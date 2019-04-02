@@ -34,7 +34,7 @@ class Utils {
         return String(temperature)
     }
     
-    static func alertDialog() {
+    static func alertDialog(_ viewController: UIViewController) {
         let alertController = UIAlertController(title: Strings.empty, message: Strings.alertMessage, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: Strings.ok , style: .cancel, handler: { action in
             switch action.style {
@@ -45,7 +45,6 @@ class Utils {
             }
         }))
         
-        guard let controller = AppDelegate.shared.getCurrentViewController() else { return }
-        controller.present(alertController, animated: true, completion: nil)
+        viewController.present(alertController, animated: true, completion: nil)
     }
 }

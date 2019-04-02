@@ -24,7 +24,6 @@ class ForecastTableViewCell: UITableViewCell {
         }
         
         scrollView.contentSize.width = xCoordinate
-
     }
     
     private func drawSubView(_ xCoord: CGFloat, foreCast: WeatherHourData) -> UIView {
