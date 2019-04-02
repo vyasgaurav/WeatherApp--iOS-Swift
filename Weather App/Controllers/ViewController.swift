@@ -25,11 +25,7 @@ class ViewController: UIViewController {
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(handleTime), userInfo: nil, repeats: true)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
+        
     override func viewWillDisappear(_ animated: Bool) {
         timer.invalidate()
     }

@@ -27,13 +27,9 @@ class WeatherDataViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         fetchWeatherData()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,7 +50,6 @@ class WeatherDataViewController: UIViewController {
         fetchLocality()
         
         AppServices().execute() { weatherInfo in
-            
             self.weatherInfo = weatherInfo
             
             DispatchQueue.main.async {
