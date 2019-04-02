@@ -13,9 +13,9 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    private let locationManager = CLLocationManager()
 
+    private let locationManager = CLLocationManager()
+    
     static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
